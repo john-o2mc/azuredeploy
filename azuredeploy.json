@@ -2,14 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "javaPackageName": {
-      "type": "string",
-      "defaultValue": "openjdk-8-jdk"
-    },
-    "tomcatPackageName": {
-      "type": "string",
-      "defaultValue": "tomcat8"
-    },
     "newStorageAccountName": {
       "type": "string",
       "metadata": {
@@ -22,45 +14,29 @@
     "adminPassword": {
       "type": "securestring"
     },
-    "imagePublisher": {
-      "type": "string",
-      "defaultValue": "Canonical",
-      "metadata": {
-        "description": "Image Publisher"
-      }
-    },
-    "imageOffer": {
-      "type": "string",
-      "defaultValue": "UbuntuServer",
-      "metadata": {
-        "description": "Image Offer"
-      }
-    },
-    "imageSKU": {
-      "type": "string",
-      "defaultValue": "16.04.0-LTS",
-      "metadata": {
-        "description": "Image SKU"
-      }
-    },
-    "vmDnsName": {
+    "dnsName": {
       "type": "string"
     }
   },
   "variables": {
-    "nicName": "myVMNic",
+    "nicName": "DimML-NIC",
     "addressPrefix": "10.0.0.0/16",
-    "subnet1Name": "Subnet-1",
+    "subnet1Name": "DimML-Subnet",
     "subnet1Prefix": "10.0.0.0/24",
-    "publicIPAddressName": "myPublicIP",
+    "publicIPAddressName": "DimML-Public-IP",
     "publicIPAddressType": "Dynamic",
+    "imagePublisher": "Canonical",
+    "imageOffer": "UbuntuServer",
+    "imageSKU": "16.04.0-LTS",
     "vmStorageAccountContainerName": "vhds",
-    "vmName": "[parameters('vmDnsName')]",
+    "vmName": "[parameters('dnsName')]",
     "vmSize": "Standard_A0",
-    "virtualNetworkName": "MyVNET",
+    "virtualNetworkName": "DimML-VNet",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]"
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "javaPackageName": "openjdk-8-jdk",
+    "tomcatPackageName": "tomcat8"
   },
   "resources": [
     {
@@ -80,7 +56,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[parameters('vmDnsName')]"
+          "domainNameLabel": "[parameters('dnsName')]"
         }
       }
     },
@@ -151,9 +127,9 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "[parameters('imagePublisher')]",
-            "offer": "[parameters('imageOffer')]",
-            "sku": "[parameters('imageSKU')]",
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('imageSKU')]",
             "version": "latest"
           },
           "osDisk": {
@@ -191,7 +167,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/john-o2mc/azuredeploy/master/java-tomcat-install.sh"
           ],
-          "commandToExecute": "[concat('sh java-tomcat-install.sh',' ',parameters('javaPackageName'),' ',parameters('tomcatPackageName'))]"
+          "commandToExecute": "[concat('sh java-tomcat-install.sh',' ',variables('javaPackageName'),' ',variables('tomcatPackageName'))]"
         }
       }
     }
