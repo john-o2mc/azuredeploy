@@ -172,7 +172,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/john-o2mc/azuredeploy/master/java-tomcat-install.sh"
+            "https://raw.githubusercontent.com/john-o2mc/azuredeploy/master/dimml.sh"
           ],
           "commandToExecute": "sh dimml.sh"
         }
