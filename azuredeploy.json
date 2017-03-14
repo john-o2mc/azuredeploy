@@ -9,13 +9,22 @@
       }
     },
     "adminUserName": {
-      "type": "string"
+      "type": "string",
+      "metadata": {
+        "description": "Name of the admin user"
+      }
     },
     "adminPassword": {
-      "type": "securestring"
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the admin user"
+      }
     },
     "dnsName": {
-      "type": "string"
+      "type": "string",
+      "metadata": {
+        "description": "DNS domain prefix"
+      }
     }
   },
   "variables": {
@@ -34,9 +43,7 @@
     "virtualNetworkName": "DimML-VNet",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
-    "javaPackageName": "openjdk-8-jdk",
-    "tomcatPackageName": "tomcat8"
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]"
   },
   "resources": [
     {
@@ -167,7 +174,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/john-o2mc/azuredeploy/master/java-tomcat-install.sh"
           ],
-          "commandToExecute": "[concat('sh java-tomcat-install.sh',' ',variables('javaPackageName'),' ',variables('tomcatPackageName'))]"
+          "commandToExecute": "sh dimml.sh"
         }
       }
     }
