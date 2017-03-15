@@ -25,4 +25,4 @@ fi
 cd /opt/dimml
 sudo chmod +x bin/dimml
 ulimit -n 65536
-sudo --preserve-env bin/dimml
+exec sudo --preserve-env bin/dimml
