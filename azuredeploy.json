@@ -43,7 +43,10 @@
     "virtualNetworkName": "DimML-VNet",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]"
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+	"host": "dimml.blaat.click",
+	"partner": "sahKPs2d",
+	"token": "CtwBNd45ReVj5ygQYfHmTmXhV8MFjk2F"
   },
   "resources": [
     {
@@ -174,7 +177,7 @@
           "fileUris": [
             "https://raw.githubusercontent.com/john-o2mc/azuredeploy/master/dimml.sh"
           ],
-          "commandToExecute": "sh dimml.sh"
+          "commandToExecute": "[concat('sh dimml.sh',' ',variables('host'),' ',variables('partner'),' ',variables('token'))]"
         }
       }
     }
